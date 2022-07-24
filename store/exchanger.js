@@ -1,11 +1,13 @@
 export const state = () => ({
   payData: {
+    label: "You Pay",
     value: null,
-    selectFiat: null,
+    selectFiat: "BTC",
   },
   getData: {
+    label: "You Get",
     value: null,
-    selectFiat: null,
+    selectFiat: "EUR",
   },
 });
 

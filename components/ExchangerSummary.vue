@@ -1,23 +1,22 @@
 <template>
-<div></div>
+  <div></div>
 </template>
 
 <script>
 export default {
-name: "ExchangerSummary",
-mixins: [],
-props: {},
-components: {},
-data() {
-return {}
-},
-mounted() {},
-methods: {},
-computed: {},
-watch: {},
-validations:{}
-}
+  name: "ExchangerSummary",
+  mixins: [],
+  props: {},
+  components: {},
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {},
+  computed: {},
+  watch: {},
+  validations: {},
+};
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
