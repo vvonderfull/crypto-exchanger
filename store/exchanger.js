@@ -1,4 +1,19 @@
 export const state = () => ({
+  fiatList: [
+    "CNY",
+    "USD",
+    "EUR",
+    "JPY",
+    "RUB",
+    "GBP",
+    "KRW",
+    "INR",
+    "CAD",
+    "AUD",
+  ],
+  commissionList: ["1.00", "2.00", "3.00", "4.00", "5.00"],
+  currencyPairs: [],
+  currencyPairsRate: [],
   payData: {
     label: "You Pay",
     value: null,
@@ -14,6 +29,31 @@ export const state = () => ({
 export const mutations = {
   setUsers(state, users) {
     state.users = users;
+  },
+  generateCurrencyPairs(state) {
+    state.fiatList.forEach((itemBase) => {
+      state.fiatList.forEach((itemQuote) => {
+        if (itemBase !== itemQuote) {
+          let rand = Math.floor(
+            1 + Math.random() * (state.commissionList.length + 1 - 1)
+          );
+          state.currencyPairs.push({
+            base_currency: itemBase,
+            quote_currency: itemQuote,
+            commission: state.commissionList[rand - 1],
+          });
+        }
+      });
+    });
+  },
+  generateCurrencyPairsRate(state) {
+    state.currencyPairsRate = state.currencyPairs.map((item) => {
+      let rand = Math.floor(10 + Math.random() * (100 + 1 - 10));
+      return {
+        pair: `${item.base_currency}/${item.quote_currency}`,
+        rate: rand,
+      };
+    });
   },
 };
 

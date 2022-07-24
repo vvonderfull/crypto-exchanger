@@ -5,7 +5,6 @@ export const state = {
 export const mutations = {
   setToken(state, token) {
     state.token = token;
-    console.log(token);
   },
   clearToken(state) {
     state.token = null;
