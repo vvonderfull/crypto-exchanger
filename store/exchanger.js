@@ -1,4 +1,4 @@
-export const state = () => ({
+export const state = {
   fiatList: [
     "CNY",
     "USD",
@@ -17,19 +17,22 @@ export const state = () => ({
   payData: {
     label: "You Pay",
     value: null,
-    selectFiat: "BTC",
+    selectFiat: "USD",
   },
   getData: {
     label: "You Get",
     value: null,
-    selectFiat: "EUR",
+    selectFiat: "RUB",
   },
-});
+};
 
 export const mutations = {
   setUsers(state, users) {
     state.users = users;
   },
+  /**
+   * Генерация списка Валютных пар | O(n^2)
+   */
   generateCurrencyPairs(state) {
     state.fiatList.forEach((itemBase) => {
       state.fiatList.forEach((itemQuote) => {
@@ -42,13 +45,25 @@ export const mutations = {
             quote_currency: itemQuote,
             commission: state.commissionList[rand - 1],
           });
+        } else {
+          state.currencyPairs.push({
+            base_currency: itemBase,
+            quote_currency: itemQuote,
+            commission: 0,
+          });
         }
       });
     });
   },
+  /**
+   * Генерация списка курсов Валютных пар
+   */
   generateCurrencyPairsRate(state) {
     state.currencyPairsRate = state.currencyPairs.map((item) => {
-      let rand = Math.floor(10 + Math.random() * (100 + 1 - 10));
+      let rand =
+        item.base_currency !== item.quote_currency
+          ? Math.floor(10 + Math.random() * (100 + 1 - 10))
+          : 1;
       return {
         pair: `${item.base_currency}/${item.quote_currency}`,
         rate: rand,

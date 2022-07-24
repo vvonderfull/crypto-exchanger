@@ -1,11 +1,23 @@
 <template>
   <div class="input-form">
-    <label for="inputForm" class="input-form__label">{{
-      dataInput.label
-    }}</label>
+    <label for="inputForm" class="input-form__label">
+      {{ dataInput.label }}
+    </label>
     <div class="input-form__input">
       <input v-model="inputValue" id="inputForm" type="number" />
-      <div class="input-form__select">{{ dataInput.selectFiat }}</div>
+      <div class="input-form__select" @click="openModal">
+        <p>{{ dataInput.selectFiat }}</p>
+        <v-icon>mdi-chevron-down</v-icon>
+      </div>
+    </div>
+    <div class="input-form__modal" v-if="showModal">
+      <div
+        class="input-form__item"
+        v-for="item in getFiatList"
+        :key="item + type"
+      >
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
@@ -24,13 +36,21 @@ export default {
   data() {
     return {
       inputValue: null,
+      showModal: false,
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    openModal() {
+      this.showModal = !this.showModal;
+    },
+  },
   computed: {
     dataInput() {
       return this.$store.state.exchanger[`${this.type}Data`];
+    },
+    getFiatList() {
+      return this.$store.state.exchanger.fiatList;
     },
   },
   watch: {},
@@ -51,6 +71,7 @@ export default {
   &__input {
     display: flex;
     align-items: center;
+    margin-bottom: 5px;
 
     input {
       width: 100%;
@@ -71,6 +92,36 @@ export default {
     height: 50px;
     background: #3482fa;
     border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    user-select: none;
+
+    p {
+      margin: 0;
+      padding: 0;
+      margin-right: 5px;
+    }
+  }
+
+  &__modal {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+  }
+
+  &__item {
+    display: flex;
+    width: 100%;
+    color: #272727;
+    padding: 2px;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #3482fa;
+    }
   }
 }
 </style>
