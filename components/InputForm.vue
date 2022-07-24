@@ -15,6 +15,7 @@
         class="input-form__item"
         v-for="item in getFiatList"
         :key="item + type"
+        @click="selectItem(item)"
       >
         {{ item }}
       </div>
@@ -43,6 +44,12 @@ export default {
   methods: {
     openModal() {
       this.showModal = !this.showModal;
+    },
+    selectItem(item) {
+      this.$store.commit(`exchanger/${this.type}DataSetter`, {
+        ...this.dataInput,
+        selectFiat: item,
+      });
     },
   },
   computed: {

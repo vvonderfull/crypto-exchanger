@@ -1,7 +1,9 @@
 <template>
   <div class="exchange-form">
     <div class="exchange-form__label">
-      <h2>Exchange EUR to BTC</h2>
+      <h2>
+        Exchange {{ getPayData.selectFiat }} to {{ getGetData.selectFiat }}
+      </h2>
     </div>
     <div class="exchange-form__wrap">
       <InputForm :type="'pay'" />
@@ -21,7 +23,14 @@ export default {
   },
   mounted() {},
   methods: {},
-  computed: {},
+  computed: {
+    getPayData() {
+      return this.$store.state.exchanger.payData;
+    },
+    getGetData() {
+      return this.$store.state.exchanger.getData;
+    },
+  },
   watch: {},
   validations: {},
 };
@@ -39,6 +48,7 @@ export default {
   &__label {
     margin-bottom: 30px;
   }
+
   &__wrap {
     display: flex;
     flex-direction: column;

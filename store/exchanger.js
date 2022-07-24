@@ -27,8 +27,11 @@ export const state = {
 };
 
 export const mutations = {
-  setUsers(state, users) {
-    state.users = users;
+  payDataSetter(state, payload) {
+    state.payData = payload;
+  },
+  getDataSetter(state, payload) {
+    state.getData = payload;
   },
   /**
    * Генерация списка Валютных пар | O(n^2)
@@ -72,14 +75,7 @@ export const mutations = {
   },
 };
 
-export const actions = {
-  async fetch({ commit }) {
-    const users = await this.$axios.$get(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-    commit("setUsers", users);
-  },
-};
+export const actions = {};
 
 export const getters = {
   users: (s) => s.users,
