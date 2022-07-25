@@ -16,12 +16,12 @@ export const state = {
   currencyPairsRate: [],
   payData: {
     label: "You Pay",
-    value: null,
+    value: 0,
     selectFiat: "USD",
   },
   getData: {
     label: "You Get",
-    value: null,
+    value: 0,
     selectFiat: "RUB",
   },
 };
@@ -32,6 +32,24 @@ export const mutations = {
   },
   getDataSetter(state, payload) {
     state.getData = payload;
+  },
+  changeDataValue(state, payload) {
+    let pairRate = state.currencyPairsRate.find(
+      (item) =>
+        item.pair === `${state.payData.selectFiat}/${state.getData.selectFiat}`
+    );
+    let commission = +state.currencyPairs.find(
+      (item) =>
+        item.base_currency === state.payData.selectFiat &&
+        item.quote_currency === state.getData.selectFiat
+    ).commission;
+    if (payload.type === "pay") {
+      state.payData.value = payload.value;
+      state.getData.value = Math.round(payload.value * pairRate.rate);
+    } else {
+      state.getData.value = payload.value;
+      state.payData.value = Math.round(payload.value / pairRate.rate);
+    }
   },
   /**
    * Генерация списка Валютных пар | O(n^2)
@@ -77,6 +95,4 @@ export const mutations = {
 
 export const actions = {};
 
-export const getters = {
-  users: (s) => s.users,
-};
+export const getters = {};

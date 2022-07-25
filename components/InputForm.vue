@@ -4,7 +4,7 @@
       {{ dataInput.label }}
     </label>
     <div class="input-form__input">
-      <input v-model="inputValue" id="inputForm" type="number" />
+      <input v-model.number="inputValue" id="inputForm" type="number" />
       <div class="input-form__select" @click="openModal">
         <p>{{ dataInput.selectFiat }}</p>
         <v-icon>mdi-chevron-down</v-icon>
@@ -36,7 +36,7 @@ export default {
   components: {},
   data() {
     return {
-      inputValue: null,
+      inputValue: 0,
       showModal: false,
     };
   },
@@ -51,6 +51,13 @@ export default {
         selectFiat: item,
       });
     },
+    changeValue(val) {
+      // console.log(val);
+      this.$store.commit(`exchanger/changeDataValue`, {
+        type: this.type,
+        value: val,
+      });
+    },
   },
   computed: {
     dataInput() {
@@ -60,7 +67,17 @@ export default {
       return this.$store.state.exchanger.fiatList;
     },
   },
-  watch: {},
+  watch: {
+    inputValue() {
+      console.log("inputValue " + this.type, this.inputValue, this.dataInput);
+      this.changeValue(this.inputValue);
+    },
+    "dataInput.value"() {
+      if (this.inputValue !== this.dataInput.value) {
+        this.inputValue = this.dataInput.value;
+      }
+    },
+  },
   validations: {},
 };
 </script>

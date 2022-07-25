@@ -4,11 +4,21 @@
       <h2>
         Exchange {{ getPayData.selectFiat }} to {{ getGetData.selectFiat }}
       </h2>
+      <div>Сourses will be updated in: {{ timer }} second</div>
     </div>
     <div class="exchange-form__wrap">
       <InputForm :type="'pay'" />
       <InputForm :type="'get'" />
     </div>
+    <v-btn class="primary" @click="handleExchange"> Exchange</v-btn>
+    <v-snackbar :timeout="3000" color="success" v-model="snackbar">
+      {{ textSnackbar }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="closeToast">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -19,10 +29,43 @@ export default {
   props: {},
   components: {},
   data() {
-    return {};
+    return {
+      timer: 30,
+      interval: 0,
+      snackbar: false,
+      textSnackbar: "",
+    };
   },
-  mounted() {},
-  methods: {},
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  created() {
+    this.$store.commit("exchanger/generateCurrencyPairs");
+    this.$store.commit("exchanger/generateCurrencyPairsRate");
+    this.startTimer();
+  },
+  methods: {
+    startTimer() {
+      this.interval = setInterval(() => {
+        if (!this.timer) {
+          this.$store.commit("exchanger/generateCurrencyPairsRate");
+          clearInterval(this.interval);
+          this.timer = 30;
+          this.startTimer();
+          return false;
+        }
+        this.timer--;
+      }, 1000);
+    },
+    handleExchange() {
+      this.textSnackbar = "успешно";
+      this.snackbar = true;
+    },
+    closeToast() {
+      this.snackbar = false;
+      this.textSnackbar = "";
+    },
+  },
   computed: {
     getPayData() {
       return this.$store.state.exchanger.payData;

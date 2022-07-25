@@ -12,10 +12,6 @@
 <script>
 export default {
   name: "IndexPage",
-  created() {
-    this.$store.commit("exchanger/generateCurrencyPairs");
-    this.$store.commit("exchanger/generateCurrencyPairsRate");
-  },
 };
 </script>
 <style scoped lang="scss">
