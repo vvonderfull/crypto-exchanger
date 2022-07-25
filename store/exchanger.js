@@ -38,11 +38,7 @@ export const mutations = {
       (item) =>
         item.pair === `${state.payData.selectFiat}/${state.getData.selectFiat}`
     );
-    let commission = +state.currencyPairs.find(
-      (item) =>
-        item.base_currency === state.payData.selectFiat &&
-        item.quote_currency === state.getData.selectFiat
-    ).commission;
+    console.log(pairRate);
     if (payload.type === "pay") {
       state.payData.value = payload.value;
       state.getData.value = payload.value * pairRate.rate;
@@ -93,6 +89,13 @@ export const mutations = {
   },
 };
 
-export const actions = {};
+export const actions = {
+  updateDataValue({ state, commit }) {
+    commit("changeDataValue", {
+      type: "pay",
+      value: 0,
+    });
+  },
+};
 
 export const getters = {};

@@ -9,6 +9,7 @@
         @input="changeValue"
         id="inputForm"
         type="number"
+        maxlength="10"
       />
       <div class="input-form__select" @click="openModal">
         <p>{{ dataInput.selectFiat }}</p>
@@ -58,9 +59,9 @@ export default {
         ...this.dataInput,
         selectFiat: item,
       });
+      this.$store.dispatch("exchanger/updateDataValue");
     },
     changeValue() {
-      console.log("inputValue " + this.type, this.inputValue, this.dataInput);
       this.$store.commit(`exchanger/changeDataValue`, {
         type: this.type,
         value: this.isAN(this.inputValue) ? +this.inputValue : 0,
@@ -83,7 +84,6 @@ export default {
   watch: {
     "dataInput.value"() {
       if (this.inputValue !== this.dataInput.value) {
-        console.log(this.dataInput.value, this.type);
         this.inputValue = this.dataInput.value;
       }
     },
