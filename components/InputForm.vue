@@ -1,5 +1,5 @@
 <template>
-  <div class="input-form">
+  <div class="input-form" v-click-outside="closeDropdown">
     <label for="inputForm" class="input-form__label">
       {{ dataInput.label }}
     </label>
@@ -44,6 +44,9 @@ export default {
   methods: {
     openModal() {
       this.showModal = !this.showModal;
+    },
+    closeDropdown() {
+      this.showModal = false;
     },
     selectItem(item) {
       this.$store.commit(`exchanger/${this.type}DataSetter`, {

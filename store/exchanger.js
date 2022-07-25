@@ -45,10 +45,10 @@ export const mutations = {
     ).commission;
     if (payload.type === "pay") {
       state.payData.value = payload.value;
-      state.getData.value = Math.round(payload.value * pairRate.rate);
+      state.getData.value = payload.value * pairRate.rate;
     } else {
       state.getData.value = payload.value;
-      state.payData.value = Math.round(payload.value / pairRate.rate);
+      state.payData.value = payload.value / pairRate.rate;
     }
   },
   /**
