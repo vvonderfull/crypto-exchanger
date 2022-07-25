@@ -4,7 +4,12 @@
       {{ dataInput.label }}
     </label>
     <div class="input-form__input">
-      <input v-model.number="inputValue" id="inputForm" type="number" />
+      <input
+        v-model.number="inputValue"
+        @input="changeValue"
+        id="inputForm"
+        type="number"
+      />
       <div class="input-form__select" @click="openModal">
         <p>{{ dataInput.selectFiat }}</p>
         <v-icon>mdi-chevron-down</v-icon>
@@ -54,12 +59,17 @@ export default {
         selectFiat: item,
       });
     },
-    changeValue(val) {
-      // console.log(val);
+    changeValue() {
+      console.log("inputValue " + this.type, this.inputValue, this.dataInput);
       this.$store.commit(`exchanger/changeDataValue`, {
         type: this.type,
-        value: val,
+        value: this.isAN(this.inputValue) ? +this.inputValue : 0,
       });
+    },
+    isAN(value) {
+      return (
+        (value instanceof Number || typeof value === "number") && !isNaN(value)
+      );
     },
   },
   computed: {
@@ -71,12 +81,9 @@ export default {
     },
   },
   watch: {
-    inputValue() {
-      console.log("inputValue " + this.type, this.inputValue, this.dataInput);
-      this.changeValue(this.inputValue);
-    },
     "dataInput.value"() {
       if (this.inputValue !== this.dataInput.value) {
+        console.log(this.dataInput.value, this.type);
         this.inputValue = this.dataInput.value;
       }
     },

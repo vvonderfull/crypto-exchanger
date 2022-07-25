@@ -9,15 +9,14 @@
     <div class="exchange-form__wrap">
       <InputForm :type="'pay'" />
       <InputForm :type="'get'" />
+      <div class="exchange-form__commission">
+        You will get with a commission({{ +getCurrencyPairs.commission }}%):
+        {{ getCommissionData }}
+      </div>
     </div>
     <v-btn class="primary" @click="handleExchange"> Exchange</v-btn>
     <v-snackbar :timeout="3000" color="success" v-model="snackbar">
       {{ textSnackbar }}
-      <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="closeToast">
-          Close
-        </v-btn>
-      </template>
     </v-snackbar>
   </div>
 </template>
@@ -58,12 +57,8 @@ export default {
       }, 1000);
     },
     handleExchange() {
-      this.textSnackbar = "успешно";
+      this.textSnackbar = `Successful exchange! You have received: ${this.getCommissionData} ${this.getGetData.selectFiat}`;
       this.snackbar = true;
-    },
-    closeToast() {
-      this.snackbar = false;
-      this.textSnackbar = "";
     },
   },
   computed: {
@@ -72,6 +67,19 @@ export default {
     },
     getGetData() {
       return this.$store.state.exchanger.getData;
+    },
+    getCommissionData() {
+      return (
+        this.getGetData.value -
+        (this.getGetData.value / 100) * this.getCurrencyPairs.commission
+      );
+    },
+    getCurrencyPairs() {
+      return this.$store.state.exchanger.currencyPairs.find(
+        (item) =>
+          item.base_currency === this.getPayData.selectFiat &&
+          item.quote_currency === this.getGetData.selectFiat
+      );
     },
   },
   watch: {},
@@ -95,6 +103,13 @@ export default {
   &__wrap {
     display: flex;
     flex-direction: column;
+  }
+
+  &__commission {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    word-break: break-word;
   }
 }
 </style>
