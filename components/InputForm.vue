@@ -9,7 +9,6 @@
         @input="changeValue"
         id="inputForm"
         type="number"
-        maxlength="10"
       />
       <div class="input-form__select" @click="openModal">
         <p>{{ dataInput.selectFiat }}</p>

@@ -14,7 +14,7 @@
         {{ getCommissionData }}
       </div>
     </div>
-    <v-btn class="primary" @click="handleExchange"> Exchange</v-btn>
+    <v-btn class="primary" @click="handleExchange">Exchange</v-btn>
     <v-snackbar :timeout="3000" color="success" v-model="snackbar">
       {{ textSnackbar }}
     </v-snackbar>
