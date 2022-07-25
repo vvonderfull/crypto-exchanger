@@ -38,7 +38,6 @@ export const mutations = {
       (item) =>
         item.pair === `${state.payData.selectFiat}/${state.getData.selectFiat}`
     );
-    console.log(pairRate);
     if (payload.type === "pay") {
       state.payData.value = payload.value;
       state.getData.value = payload.value * pairRate.rate;
