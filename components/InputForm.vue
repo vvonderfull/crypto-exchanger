@@ -53,6 +53,9 @@ export default {
     closeDropdown() {
       this.showModal = false;
     },
+    /**
+     * Выбор Фиата
+     */
     selectItem(item) {
       this.$store.commit(`exchanger/${this.type}DataSetter`, {
         ...this.dataInput,
@@ -60,12 +63,18 @@ export default {
       });
       this.$store.dispatch("exchanger/updateDataValue");
     },
+    /**
+     * Изменение инпута
+     */
     changeValue() {
       this.$store.commit(`exchanger/changeDataValue`, {
         type: this.type,
         value: this.isAN(this.inputValue) ? +this.inputValue : 0,
       });
     },
+    /**
+     * Проверка на число
+     */
     isAN(value) {
       return (
         (value instanceof Number || typeof value === "number") && !isNaN(value)

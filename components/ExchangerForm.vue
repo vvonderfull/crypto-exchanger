@@ -44,6 +44,9 @@ export default {
     this.startTimer();
   },
   methods: {
+    /**
+     * Запуск таймера обновления курсов
+     */
     startTimer() {
       this.interval = setInterval(() => {
         if (!this.timer) {

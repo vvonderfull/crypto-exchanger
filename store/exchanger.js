@@ -33,6 +33,9 @@ export const mutations = {
   getDataSetter(state, payload) {
     state.getData = payload;
   },
+  /**
+   * Изменение и пересчет input'ов базовой и котируемой валюты
+   */
   changeDataValue(state, payload) {
     let pairRate = state.currencyPairsRate.find(
       (item) =>
@@ -89,6 +92,9 @@ export const mutations = {
 };
 
 export const actions = {
+  /**
+   * Сброс значений инпутов
+   */
   updateDataValue({ state, commit }) {
     commit("changeDataValue", {
       type: "pay",
